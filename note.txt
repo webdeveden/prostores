@@ -1,0 +1,16 @@
+for dark mode:
+
+- npm i next-themes
+
+for the dropdown :
+- use shadcn dropdown
+(bunx shadcn@latest add dropdown-menu)
+
+- adding the sheet component from shadcn
+
+USING PRISMA STUDIO
+
+- npx prisma studio
+
+- we created a ts file linked to our sampledata, then run the function to populate that data to our database
+(= npx tsx  "filepath")
