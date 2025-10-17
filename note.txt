@@ -14,3 +14,21 @@ USING PRISMA STUDIO
 
 - we created a ts file linked to our sampledata, then run the function to populate that data to our database
 (= npx tsx  "filepath")
+
+-  i'm currently using bun 
+
+for password :
+
+- npm i bcrypt-ts-edge
+- import {hashSync} from 'bcrypt-ts-edge' (= hashing our password)
+
+- using nextauth for authentication.
+
+(bun add next-auth@beta)
+
+- using prisma adapter
+(bun add @auth/prisma-adapter)
+
+- for our form : we need 2 more component from shadcn:
+# label and input
+(bun shadcn@latest add label input )
