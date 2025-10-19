@@ -17,12 +17,18 @@ export const metadata = {
   title: "Sign In",
 };
 
-const SignInPage = async () => {
+const SignInPage = async (props: {
+  searchParams: Promise<{
+    callbackUrl: string;
+  }>;
+}) => {
+  // getting callbackUrl from the search params
+  const { callbackUrl } = await props.searchParams;
   // getting a session in a server component
   const session = await auth();
 
   if (session) {
-    return redirect("/"); // if session successfull take him to the home page
+    return redirect(callbackUrl || "/"); // if session successfull take him to the home page
   }
   return (
     <div className="w-full max-w-md mx-auto">

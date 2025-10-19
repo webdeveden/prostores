@@ -1,54 +1,34 @@
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "./db/prisma";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compareSync } from "bcrypt-ts-edge";
-import type { NextAuthConfig } from "next-auth";
+import { signInFormSchema } from "@/lib/constants/validators";
 
-export const config: NextAuthConfig = {
+export const authOptions = {
   pages: {
     signIn: "/sign-in",
     error: "/sign-in",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
+      name: "Credentials",
       credentials: {
-        email: { type: "email" },
-        password: { type: "password" },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials === null) return null;
-
-        //find user in database
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email as string,
-          },
-        });
-        // check if the user exist and if the pasword matches
-        if (user && user.password) {
-          const isMatch = compareSync(
-            credentials.password as string,
-            user.password
-          );
-
-          // if password is correct, return user
-          if (isMatch) {
-            return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            };
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
           }
+          // Validate credentials with Zod; user lookup happens in signInWithCredentials
+          const { email, password } = signInFormSchema.parse(credentials);
+          return { email, password }; // Pass credentials through
+        } catch (error) {
+          return null;
         }
-        //if user does not exit or password does not match return null
-        return null;
       },
     }),
   ],
@@ -66,4 +46,4 @@ export const config: NextAuthConfig = {
   },
 };
 
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

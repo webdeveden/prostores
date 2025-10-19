@@ -4,9 +4,7 @@ import { prisma } from "@/db/prisma";
 import { convertToPlainObject } from "@/lib/utils";
 import { LATEST_PRODUCTS_LIMIT } from "../constants";
 
-export async function getLatestProducts(): Promise<
-  ReturnType<typeof convertToPlainObject>
-> {
+export async function getLatestProducts() {
   const data = await prisma.product.findMany({
     take: LATEST_PRODUCTS_LIMIT,
     orderBy: { createdAt: "desc" },

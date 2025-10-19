@@ -4,6 +4,6 @@ import { insertProductSchema } from "@/lib/constants/validators";
 // bringing our zod schema into our type and add what is missing if needed
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
-  rating: Number;
+  rating: string;
   createdAt: Date;
 };

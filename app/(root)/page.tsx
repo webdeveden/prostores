@@ -10,10 +10,7 @@ const HomePage = async () => {
   await delay(2000);
   const latestProducts = await getLatestProducts();
 
-  return (
-    //@ts-ignore
-    <ProductList data={latestProducts as any} title="New Arrivals" />
-  );
+  return <ProductList data={latestProducts} title="New Arrivals" />;
 };
 
 export default HomePage;
