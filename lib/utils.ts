@@ -21,8 +21,8 @@ export function formatNumberWithDecimal(num: number): string {
 }
 
 // Format errors, then pass it to our user action
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function formatError(error: any) {
   if (error.name === "ZodError") {
     // Handle Zod error
@@ -35,7 +35,15 @@ export function formatError(error: any) {
     error.code === "P2002"
   ) {
     // Handle Prisma error
+    const field = error.meta?.target ? error.meta.target[0] : "Field";
+    // error.meta?.target returns an array of a field (['email])
+    return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
   } else {
     // Handle other errors
+
+    // checking the type of the return
+    return typeof error.message === "string"
+      ? error.message
+      : JSON.stringify(error.message);
   }
 }
