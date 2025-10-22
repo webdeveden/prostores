@@ -1,11 +1,10 @@
 "use server";
 
-import { signInFormSchema, signUpFormSchema } from "../constants/validators";
 import { signIn, signOut } from "@/auth";
-import { isRedirectError } from "next/dist/client/components/redirect";
-import { hashSync } from "bcrypt-ts-edge";
 import { prisma } from "@/db/prisma";
-import { success } from "zod";
+import { hashSync } from "bcrypt-ts-edge";
+import { isRedirectError } from "next/dist/client/components/redirect";
+import { signInFormSchema, signUpFormSchema } from "../constants/validators";
 import { formatError } from "../utils";
 
 // Sign in the user with credentials
