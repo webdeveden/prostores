@@ -32,3 +32,8 @@ for password :
 - for our form : we need 2 more component from shadcn:
 # label and input
 (bun shadcn@latest add label input )
+
+- using toast for q quick notification when adding item to created
+, then import it in your app layout.
+
+(bunx shadcn@latest add toast)
